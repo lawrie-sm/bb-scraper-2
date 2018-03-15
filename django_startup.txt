@@ -1,5 +1,13 @@
+----Startup----
 python -m venv env
 "env\Scripts\activate"
 pip install django==VERSION
 django-admin startproject <project name>
 manage.py startapp <app name>
+
+
+----Dependencies----
+debug toolbar
+django extensions
+requests
+psycopg2

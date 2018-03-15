@@ -203,4 +203,5 @@ class Command(BaseCommand):
         # Sub type data should exist
         # self.add_questions(sub_types)
         self.add_motions(sub_types)
+        call_command('update_searchvectors')
         print('Done!')

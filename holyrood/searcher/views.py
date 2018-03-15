@@ -17,12 +17,10 @@ class SPSearchResults(ListView):
     def get(self, request):
         search_form = SPSearchForm()
         if (request.GET['q'] is not None):
-            queryset = Motion.objects
             keywords = request.GET['q']
             query = SearchQuery(keywords)
-            vector = SearchVector('title', 'text')
-            queryset = queryset.annotate(search=vector).filter(search=query)
-            queryset = queryset.annotate(rank=SearchRank(vector, query)).order_by('-rank')
+            queryset = Motion.objects.filter(search_vector=query)
+            # queryset = queryset.annotate(rank=SearchRank(vector, query)).order_by('-rank')
             json = serializers.serialize('json', queryset)
             context = {
                 'search_form': search_form,

@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
-
-# TODO: ADD INDEXES (Check admin to see specific fields should be indexed)
+from django.contrib.postgres.search import SearchVectorField, SearchVector
+from django.contrib.postgres.indexes import GinIndex
 
 class Person(models.Model):
     internal_id = models.CharField(max_length=128, blank=True, null=True)
@@ -42,9 +42,13 @@ class Motion(models.Model):
     is_potential_mb = models.BooleanField(default=False)
     has_cross_party_support = models.BooleanField(default=False)
     has_been_scraped = models.BooleanField(default=False)
+    search_vector = SearchVectorField(null=True)
 
     def __str__(self):
         return (self.title)
+
+    class Meta(object):
+        indexes = [GinIndex(fields=['search_vector'])]
 
 class Question(models.Model):
     internal_id = models.CharField(max_length=256, blank=True, null=True)
