@@ -1,10 +1,11 @@
 
 function init(data, lastYearWithFullData) {
-
+  
+  console.log('JSON DATA:')
   console.log(data);
 
   var timeStepMonths = 12; //12mo for yearly output
-  var updatingStartDate = moment().subtract(10, 'year');
+  var updatingStartDate = moment(`01-01-1999`);
   var finalEndDate = moment(`01-01-${lastYearWithFullData}`);
   var dateRanges = [];
   var isYear = (timeStepMonths === 12)
@@ -38,6 +39,7 @@ function init(data, lastYearWithFullData) {
 
   var chartArgs = { axisY: { onlyInteger: true } };
 
+  console.log('CHART DATA:')
   console.log(chartData);
 
   new Chartist.Line('.ct-chart', chartData, chartArgs);

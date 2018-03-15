@@ -30,7 +30,7 @@
 </div>
 <script src="{% static "searcher/scripts/Results.js" %}"></script>
 <script type="text/javascript">
-  var received_data = {{motions_json|safe}};
+  var received_data = {{data_json|safe}};
   init(received_data, '2016')
 </script>
 {% endblock %}

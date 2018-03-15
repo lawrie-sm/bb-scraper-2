@@ -26,6 +26,10 @@ class Contribution(models.Model):
     member = models.ForeignKey(Person, blank=True, null=True)
     member_office = models.CharField(max_length=1024, blank=True, null=True)
     has_been_scraped = models.BooleanField(default=False)
+    search_vector = SearchVectorField(null=True)
+
+    class Meta(object):
+        indexes = [GinIndex(fields=['search_vector'])]
 
     def __str__(self):
         return (self.heading)
@@ -44,11 +48,11 @@ class Motion(models.Model):
     has_been_scraped = models.BooleanField(default=False)
     search_vector = SearchVectorField(null=True)
 
-    def __str__(self):
-        return (self.title)
-
     class Meta(object):
         indexes = [GinIndex(fields=['search_vector'])]
+
+    def __str__(self):
+        return (self.title)
 
 class Question(models.Model):
     internal_id = models.CharField(max_length=256, blank=True, null=True)
@@ -62,6 +66,10 @@ class Question(models.Model):
     answer_text = models.TextField(blank=True, null=True)
     answered_by = models.CharField(max_length=256, blank=True, null=True)
     has_been_scraped = models.BooleanField(default=False)
-    
+    search_vector = SearchVectorField(null=True)
+
+    class Meta(object):
+        indexes = [GinIndex(fields=['search_vector'])]
+
     def __str__(self):
         return (self.sp_ref)

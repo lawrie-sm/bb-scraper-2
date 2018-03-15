@@ -9,7 +9,7 @@ from django.core.management import call_command
 class Command(BaseCommand):
     MIN_CHARS_FOR_ENTRY = 128
     help = 'Gets historical data from the SP APIs'
-    CONTRIB_YEARS = ['2016']
+    CONTRIB_YEARS = ['2012','2013', '2014', '2015', '2016', '2017']
 
     CONTRIB_FULL_YEARS = [
         '1999', '2000', '2001', '2002', '2003',
@@ -203,5 +203,5 @@ class Command(BaseCommand):
         # Sub type data should exist
         # self.add_questions(sub_types)
         self.add_motions(sub_types)
-        call_command('update_searchvectors')
+        call_command('updatesearchvectors')
         print('Done!')
