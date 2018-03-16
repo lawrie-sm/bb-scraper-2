@@ -1,3 +1,6 @@
+$("#loader-row").toggle();
 function searchSubmit() {
-  $("#loader-row").show();
+  $("#loader-row").toggle();
+  $("#content-row").toggle();
+  return false;
 }
