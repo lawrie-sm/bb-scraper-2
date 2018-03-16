@@ -19,6 +19,7 @@ class SPSearchResults(ListView):
         if (request.GET['q'] is not None):
             keywords = request.GET['q']
             query = SearchQuery(keywords)
+            print(query)
             motions_queryset = Motion.objects.filter(search_vector=query)
             contribs_queryset = Contribution.objects.filter(search_vector=query)
             questions_queryset = Question.objects.filter(search_vector=query)

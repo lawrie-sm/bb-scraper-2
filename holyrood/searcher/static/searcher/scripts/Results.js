@@ -5,7 +5,7 @@ function init(data, lastYearWithFullData) {
   console.log(data);
 
   var timeStepMonths = 12; //12mo for yearly output
-  var updatingStartDate = moment(`01-01-1999`);
+  var updatingStartDate = moment().subtract(10, 'years'); // moment(`01-01-1999`);
   var finalEndDate = moment(`01-01-${lastYearWithFullData}`);
   var dateRanges = [];
   var isYear = (timeStepMonths === 12)
