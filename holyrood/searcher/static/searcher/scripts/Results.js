@@ -45,4 +45,3 @@ function init(data, lastYearWithFullData) {
   new Chartist.Line('.ct-chart', chartData, chartArgs);
 
 }
-

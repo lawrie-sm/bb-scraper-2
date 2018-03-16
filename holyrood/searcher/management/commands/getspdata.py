@@ -78,8 +78,13 @@ class Command(BaseCommand):
                 for i, contrib_obj in enumerate(resArr):
                     sys.stdout.write('Processing {} of {}   \r'.format(i, len(resArr) - 1))
                     sys.stdout.flush()
-                    newContrib = self.create_contribution(contrib_obj, is_committee)
-                    if newContrib: contribs_to_add.append(newContrib)
+                    try:
+                        newContrib = self.create_contribution(contrib_obj, is_committee)
+                        if newContrib: contribs_to_add.append(newContrib)
+                    except:
+                        print('Error adding contribution:')
+                        print(contrib_obj)
+                        break
                 sys.stdout.write('\r\n')
                 print('Adding to DB...')
                 Contribution.objects.bulk_create(contribs_to_add)
@@ -197,11 +202,11 @@ class Command(BaseCommand):
         call_command('deleteall')
         self.add_MSPs()
         # MSP data should exist
-        # self.add_contributions(False)
-        # self.add_contributions(True)
+        #self.add_contributions(False)
+        #self.add_contributions(True)
         sub_types = self.get_sub_types_dict()
         # Sub type data should exist
-        # self.add_questions(sub_types)
+        #self.add_questions(sub_types)
         self.add_motions(sub_types)
         call_command('updatesearchvectors')
         print('Done!')

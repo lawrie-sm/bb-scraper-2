@@ -7,19 +7,23 @@
 
   <div class="row">
     <div class ="col-sm">
-    <div class="jumbotron mt-4">
-
-      <h1>Holyrood Search</h1>
-      <p class="lead">Search speeches, questions and motions at the Scottish Parliament.</p>
-      <form action="{% url 'search' %}" class="input-group" method="get" accept-charset="utf-8">
-        {{ search_form }}
-        <div class="input-group-append">
-          <button class="btn btn-primary" type="submit">Search</button>
-        </div>
-      </form>
-
+      <div class="jumbotron mt-4">
+        <h1>Holyrood Search</h1>
+        <p class="lead">Search speeches, questions and motions at the Scottish Parliament.</p>
+        <form action="{% url 'search' %}" class="input-group" method="get" accept-charset="utf-8" onsubmit="searchSubmit()">
+          {{ search_form }}
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">Search</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
+
+
+  {% include 'searcher/loader-row.html' %}.
+
 </div>
+
 
 {% endblock %}
