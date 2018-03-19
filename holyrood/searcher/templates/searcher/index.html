@@ -11,7 +11,7 @@
         <h1>Holyrood Search</h1>
         <p class="lead">Search speeches, questions and motions at the Scottish Parliament.</p>
         <form action="{% url 'search' %}" class="input-group" method="get" accept-charset="utf-8" onsubmit="searchSubmit()">
-          {{ search_form }}
+          <input type="text" name="q" class="form-control" placeholder="Enter search term...">
           <div class="input-group-append">
             <button class="btn btn-primary" type="submit">Search</button>
           </div>

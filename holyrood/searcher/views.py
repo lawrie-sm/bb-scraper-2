@@ -4,22 +4,18 @@ from django.shortcuts import render
 from django.views.generic import View
 from django.views.generic.list import ListView
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
-from searcher.forms import SPSearchForm
 from searcher.models import Contribution, Motion, Question
 from itertools import chain
 
 class index(View):
     def get(self, request):
-        search_form = SPSearchForm()
-        return render(request, 'searcher/index.html', {'search_form': search_form})
+        return render(request, 'searcher/index.html')
 
 class SPSearchResults(ListView):
     def get(self, request):
-        search_form = SPSearchForm()
         if (request.GET['q'] is not None):
             keywords = request.GET['q']
             query = SearchQuery(keywords)
-            print(query)
             motions_queryset = Motion.objects.filter(search_vector=query)
             contribs_queryset = Contribution.objects.filter(search_vector=query)
             questions_queryset = Question.objects.filter(search_vector=query)
@@ -28,7 +24,6 @@ class SPSearchResults(ListView):
 
             data_json = serializers.serialize('json', full_queryset)
             context = {
-                'search_form': search_form,
                 'data_json': data_json
             }
 

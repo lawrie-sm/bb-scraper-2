@@ -8,8 +8,8 @@
     <div class ="col-sm">
       <div class="jumbotron mt-2 pt-2 pb-4">
         <h4>Holyrood Search</h4>
-        <form action="{% url 'search' %}" class="input-group" method="get" accept-charset="utf-8" onsubmit="searchSubmit()">
-          {{ search_form }}
+        <form id='search-form' action="{% url 'search' %}" class="input-group" method="get" accept-charset="utf-8" onsubmit="searchSubmit()">
+          <input type="text" name="q" class="form-control" placeholder="Enter search term...">
           <div class="input-group-append">
             <button class="btn btn-primary" type="submit">Search</button>
           </div>
@@ -18,21 +18,14 @@
     </div>
   </div>
 
-
-  <div id="content-row" class="row">
-    <div class ="col-sm">
-      <div class="jumbotron">
-          <div class="ct-chart ct-perfect-fourth"></div>
-      </div>
-    </div>
-  </div>
+  {% include 'searcher/results-chart.html' %}.
 
   {% include 'searcher/loader-row.html' %}.
 
 </div>
-<script src="{% static "searcher/scripts/Results.js" %}"></script>
 <script type="text/javascript">
-  var received_data = {{data_json|safe}};
-  init(received_data, '2016')
+  var END_YEAR = '2016';
+  var RECIEVED_DATA = {{data_json|safe}};
+  setupChart(RECIEVED_DATA, END_YEAR)
 </script>
 {% endblock %}
