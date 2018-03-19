@@ -2,8 +2,18 @@
   display: none;
 }
 
-#content-row {
- 
+#no-data-warning {
+  display: none;
+  width: 200px;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+#no-data-warning > p {
+  color: gray;
 }
 
 .loader {

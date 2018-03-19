@@ -2,6 +2,10 @@
   <div class ="col-sm">
     <div class="jumbotron">
   
+      <div id="no-data-warning">
+        <p>No data available for this period.</p>
+      </div>
+
       <div class="ct-chart ct-perfect-fourth"></div>
 
       <form id="results-chart">
@@ -10,26 +14,26 @@
               <legend class="col-form-label col-sm-2 pt-0">Date range</legend>
               <div class="col-sm-10">
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-                  <label class="form-check-label" for="gridRadios1">
+                  <input class="form-check-input" type="radio" name="dateRadios" id="last-year" value="last-year" checked>
+                  <label class="form-check-label" for="last-year">
                     Last year
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-                  <label class="form-check-label" for="gridRadios2">
-                    Last 5 years
+                  <input class="form-check-input" type="radio" name="dateRadios" id="last-3-years" value="last-3-years">
+                  <label class="form-check-label" for="last-3-years">
+                    Last 3 years
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option3">
-                  <label class="form-check-label" for="gridRadios3">
+                  <input class="form-check-input" type="radio" name="dateRadios" id="last-10-years" value="last-10-years">
+                  <label class="form-check-label" for="last-10-years">
                     Last 10 years
                   </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios4" value="option4">
-                    <label class="form-check-label" for="gridRadios4">
+                    <input class="form-check-input" type="radio" name="dateRadios" id="all-time" value="all-time">
+                    <label class="form-check-label" for="all-time">
                       All time
                     </label>
                 </div>
