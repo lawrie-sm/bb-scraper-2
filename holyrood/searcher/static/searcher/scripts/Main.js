@@ -1,30 +1,33 @@
-// Switch into a spinner during search form submission
 $(function() {
+
+  // Switch into a spinner during search form submission
   $('#search-form').on('submit', function(e) {
       $("#loader-row").show();
       $("#content-row").hide();
   });
-});
 
-// Update chart and prevent form submission
-$(function() {
+
+  // Update chart and prevent form submission
   $('#results-chart').on('submit', function(e) {
       e.preventDefault();
       var formData = $('#results-chart').serializeArray();
       setupChart(RECIEVED_DATA, END_YEAR, formData);
       return false;
   });
-});
 
+  // Make the chart update form refresh on changes
+  $('#results-chart').find('input').change(function(e) {
+    $(this).closest('form').submit();
+  });
+});
 
 // Main chart setup function
 function setupChart(data, lastYearWithFullData, formData) {
 
   // Setup time span variables & defaults based on selection
-  // 'last-year' is the default time-span
   var finalEndDate = moment(`01-01-${lastYearWithFullData}`);
-  var timeStepMonths = 1;
-  var updatingStartDate = moment(finalEndDate).subtract(1, 'years'); // moment(`01-01-1999`);
+  var timeStepMonths = 12;
+  var updatingStartDate = moment(`01-01-1999`);
 
   // Set default type
   var selectedType = 'all-types';
@@ -39,18 +42,20 @@ function setupChart(data, lastYearWithFullData, formData) {
       if (v.name === 'date-range') return v;
     }); 
     timeSpan = timeSpan.value;
-    if (timeSpan != 'last-year') {
-      if (timeSpan === 'last-3-years') {
-        timeStepMonths = 3;
-        updatingStartDate = moment(finalEndDate).subtract(3, 'years');
-      } else if (timeSpan === 'last-10-years') {
-        timeStepMonths = 12;
-        updatingStartDate = moment(finalEndDate).subtract(10, 'years');
-      } else if (timeSpan === 'all-time') {
-        timeStepMonths = 12;
-        updatingStartDate = moment(`01-01-1999`);
-      }
+    if (timeSpan === 'last-year') {
+      timeStepMonths = 1;
+      updatingStartDate = moment(finalEndDate).subtract(1, 'years');
+    } else if (timeSpan === 'last-5-years') {
+      timeStepMonths = 4;
+      updatingStartDate = moment(finalEndDate).subtract(5, 'years');
+    } else if (timeSpan === 'last-10-years') {
+      timeStepMonths = 12;
+      updatingStartDate = moment(finalEndDate).subtract(10, 'years');
+    } else if (timeSpan === 'all-time') {
+      timeStepMonths = 12;
+      updatingStartDate = moment(`01-01-1999`);
     }
+  
     
     // Set type based on form
     selectedType = formData.find(function(v) {
