@@ -24,7 +24,8 @@ class ContributionAdmin(admin.ModelAdmin):
         ( 'heading', 'heading_type' ),
         ('subheading' , 'subheading_type' ),
         ('member', 'member_office', 'party'),
-        'text'
+        'text',
+        'search_vector'
     )
     readonly_fields = (
         'internal_id', 'date', 'session', 'meeting_type',
@@ -71,7 +72,8 @@ class MotionAdmin(admin.ModelAdmin):
         ('title', 'date'),
         ('member', 'party'),
         ('is_potential_mb', 'has_cross_party_support'),
-        'text'
+        'text',
+        'search_vector'
     )
     readonly_fields = (
         'title', 'date', 'member', 'party',
@@ -99,7 +101,8 @@ class QuestionAdmin(admin.ModelAdmin):
         ('date', 'answer_date'),
         ('member', 'party', 'answered_by'),
         'text',
-        'answer_text'
+        'answer_text',
+        'search_vector'
     )
     readonly_fields = (
         'date', 'member', 'party',

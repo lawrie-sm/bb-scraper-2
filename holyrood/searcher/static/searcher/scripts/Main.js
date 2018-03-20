@@ -27,7 +27,7 @@ function setupChart(data, lastYearWithFullData, formData) {
   var updatingStartDate = moment(finalEndDate).subtract(1, 'years'); // moment(`01-01-1999`);
 
   // Set default type
-  var type = 'all-types';
+  var selectedType = 'all-types';
 
   // Setup default party data and 'parties' dict
   var DEFAULT_PARTIES = ['tot', 'snp', 'lab', 'con', 'ld', 'grn', 'oth'];
@@ -53,10 +53,10 @@ function setupChart(data, lastYearWithFullData, formData) {
     }
     
     // Set type based on form
-    type = formData.find(function(v) {
+    selectedType = formData.find(function(v) {
       if (v.name === 'type') return v;
     }); 
-    type = type.value;
+    selectedType = selectedType.value;
 
     // Build party dict from formData
     parties = {};
@@ -93,7 +93,7 @@ function setupChart(data, lastYearWithFullData, formData) {
     var range = dateRanges.find(function(dr) {
       return(itemMonth.isBetween(dr.start, dr.end));
       });
-    if (range) {
+    if (range && typeIsIncluded(data[i].model, selectedType)) {
       pty = getPartyFromSPName(data[i].fields.party);
       if (range[pty] != undefined) range[pty]++;
       if (range['tot'] != undefined) range['tot']++;
@@ -138,4 +138,12 @@ function getPartyFromSPName(SPName) {
   if (SPName === 'Scottish Liberal Democrats') return 'ld';
   if (SPName === 'Scottish Green Party') return 'grn';
   return 'oth';
+}
+
+function typeIsIncluded(model, selectedType) {
+if (selectedType === 'all-types') return true;
+if (model === 'searcher.motion' && selectedType === 'motions') return true;
+if (model === 'searcher.question' && selectedType === 'questions') return true;
+if (model === 'searcher.contribution' && selectedType === 'contribs') return true;
+return false;
 }
