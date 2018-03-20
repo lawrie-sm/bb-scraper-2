@@ -26,12 +26,15 @@ function setupChart(data, lastYearWithFullData, formData) {
   var timeStepMonths = 1;
   var updatingStartDate = moment(finalEndDate).subtract(1, 'years'); // moment(`01-01-1999`);
 
+  // Set default type
+  var type = 'all-types';
+
   // Setup default party data and 'parties' dict
   var DEFAULT_PARTIES = ['tot', 'snp', 'lab', 'con', 'ld', 'grn', 'oth'];
   var parties = { 'tot': 'y'}
 
   // Deal with inputs from the update form, if any
-    if (formData) {
+  if (formData) {
     var timeSpan = formData.find(function(v) {
       if (v.name === 'date-range') return v;
     }); 
@@ -48,6 +51,13 @@ function setupChart(data, lastYearWithFullData, formData) {
         updatingStartDate = moment(`01-01-1999`);
       }
     }
+    
+    // Set type based on form
+    type = formData.find(function(v) {
+      if (v.name === 'type') return v;
+    }); 
+    type = type.value;
+
     // Build party dict from formData
     parties = {};
     for (var i = 0; i < formData.length; i++) {

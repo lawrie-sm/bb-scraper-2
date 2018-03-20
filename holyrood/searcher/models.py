@@ -54,6 +54,7 @@ class Motion(models.Model):
     def __str__(self):
         return (self.title)
 
+# TODO: Investigate why titles aren't working for questions
 class Question(models.Model):
     internal_id = models.CharField(max_length=256, blank=True, null=True)
     sp_ref = models.CharField(max_length=128, blank=True, null=True)

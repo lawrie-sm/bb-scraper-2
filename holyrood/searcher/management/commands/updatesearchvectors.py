@@ -7,4 +7,4 @@ class Command(BaseCommand):
         print('Updating search vectors...')
         Motion.objects.update(search_vector=SearchVector('title', 'text'))
         Contribution.objects.update(search_vector=SearchVector('heading', 'subheading', 'text'))
-        Question.objects.update(search_vector=SearchVector('text'))
+        Question.objects.update(search_vector=SearchVector('text', 'answer_text'))
