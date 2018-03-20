@@ -4,23 +4,9 @@
 {% block content %}
 <div class="container">
 
-  <div class="row">
-    <div class ="col-sm">
-      <div class="jumbotron mt-2 pt-2 pb-4">
-        <h4>Holyrood Search</h4>
-        <form id='search-form' action="{% url 'search' %}" class="input-group" method="get" accept-charset="utf-8" onsubmit="searchSubmit()">
-          <input type="text" name="q" class="form-control" placeholder="Enter search term...">
-          <div class="input-group-append">
-            <button class="btn btn-primary" type="submit">Search</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  {% include 'searcher/results-chart.html' %}.
-
-  {% include 'searcher/loader-row.html' %}.
+  {% include 'searcher/search-form.html' %}
+  {% include 'searcher/results-chart.html' %}
+  {% include 'searcher/loader-row.html' %}
 
 </div>
 <script type="text/javascript">

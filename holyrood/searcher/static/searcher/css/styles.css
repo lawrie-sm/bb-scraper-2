@@ -37,3 +37,34 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+
+/* Chart colours */
+
+.ct-tot {
+  stroke: black;
+}
+
+.ct-snp {
+  stroke: yellow;
+}
+
+.ct-lab {
+  stroke: red;
+}
+
+.ct-con {
+  stroke: blue;
+}
+
+.ct-ld {
+  stroke: orange;
+}
+
+.ct-grn {
+  stroke: green;
+}
+
+.ct-oth {
+  stroke: gray;
+}

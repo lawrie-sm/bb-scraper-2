@@ -11,29 +11,31 @@ $(function() {
   $('#results-chart').on('submit', function(e) {
       e.preventDefault();
       var formData = $('#results-chart').serializeArray();
-      console.log(formData);
       setupChart(RECIEVED_DATA, END_YEAR, formData);
       return false;
   });
 });
 
+
+// Main chart setup function
 function setupChart(data, lastYearWithFullData, formData) {
 
-  //console.log('JSON DATA:')
-  //console.log(data);
-
-  // Setup time span variables based on selection
+  // Setup time span variables & defaults based on selection
   // 'last-year' is the default time-span
   var finalEndDate = moment(`01-01-${lastYearWithFullData}`);
   var timeStepMonths = 1;
   var updatingStartDate = moment(finalEndDate).subtract(1, 'years'); // moment(`01-01-1999`);
 
-  // Setup default party data
-  var parties = ['snp', 'lab', 'con', 'ld', 'green', 'others'];
+  // Setup default party data and 'parties' dict
+  var DEFAULT_PARTIES = ['tot', 'snp', 'lab', 'con', 'ld', 'grn', 'oth'];
+  var parties = { 'tot': 'y'}
 
-  // Parse form data
+  // Deal with inputs from the update form, if any
     if (formData) {
-    var timeSpan = formData[0].value;
+    var timeSpan = formData.find(function(v) {
+      if (v.name === 'date-range') return v;
+    }); 
+    timeSpan = timeSpan.value;
     if (timeSpan != 'last-year') {
       if (timeSpan === 'last-3-years') {
         timeStepMonths = 3;
@@ -46,11 +48,17 @@ function setupChart(data, lastYearWithFullData, formData) {
         updatingStartDate = moment(`01-01-1999`);
       }
     }
-    parties = formData.map(function (d) {
-      if (d.name === 'partyCheckboxes') return d.value;
-    });
+    // Build party dict from formData
+    parties = {};
+    for (var i = 0; i < formData.length; i++) {
+      if (DEFAULT_PARTIES.includes(formData[i].name)) {
+        parties[formData[i].name] = formData[i].value;
+      }
+    }
   }
+  var partyList = Object.keys(parties);
 
+  // Create date range objects
   var dateRanges = [];
   var isYear = (timeStepMonths === 12)
   while (finalEndDate > updatingStartDate ||
@@ -59,20 +67,26 @@ function setupChart(data, lastYearWithFullData, formData) {
     var startDate = moment(updatingStartDate);
     var endDate = moment(updatingStartDate);
     endDate.add(timeStepMonths,'month')
-    dateRanges.push({
+    var newRange = {
       start: startDate,
       end: endDate
-    })
+    };
+    for (var i = 0; i < partyList.length; i++) {
+      newRange[partyList[i]] = 0;
+    }
+    dateRanges.push(newRange)
     updatingStartDate = endDate.get();
   }
+  // Iterate through data and add quantities to each range object
   for (var i = 0; i < data.length; i++) {
     var itemMonth = moment(data[i].fields.date);
     var range = dateRanges.find(function(dr) {
       return(itemMonth.isBetween(dr.start, dr.end));
       });
     if (range) {
-      if (!range.quantity) range.quantity = 0;
-      range.quantity++;
+      pty = getPartyFromSPName(data[i].fields.party);
+      if (range[pty] != undefined) range[pty]++;
+      if (range['tot'] != undefined) range['tot']++;
     }
   }
 
@@ -80,22 +94,38 @@ function setupChart(data, lastYearWithFullData, formData) {
     return(isYear ? dr.start.format('YY') : dr.start.format('YY-MM'))
   });
 
-  if (labels.length > 0) {
-    var series = dateRanges.map(function (dr) {
-      return(dr.quantity)
-    });
+  var series = [];
+  for (var i = 0; i < partyList.length; i++) {
+    var newSeries = {
+      className: `ct-${partyList[i]}`,
+      data: [],
+    }
+    newSeries.data = dateRanges.map(function (dr) {
+      return(dr[partyList[i]])
+    })
+    series[i] = newSeries;
+  }
+  if (labels.length > 0 && series.length > 0) {
     var chartData = {
       labels,
-      series: [ series ]
+      series,
     };
+
     var chartArgs = { axisY: { onlyInteger: true } };
     new Chartist.Line('.ct-chart', chartData, chartArgs);
     $('.ct-chart').show();
     $('#no-data-warning').hide();
-    //console.log('CHART DATA:')
-    //console.log(chartData);
   } else {
     $('.ct-chart').hide();
     $('#no-data-warning').show();
   }
+}
+
+function getPartyFromSPName(SPName) {
+  if (SPName === 'Scottish National Party') return 'snp';
+  if (SPName === 'Scottish Labour') return 'lab';
+  if (SPName === 'Scottish Conservative and Unionist Party') return 'con';
+  if (SPName === 'Scottish Liberal Democrats') return 'ld';
+  if (SPName === 'Scottish Green Party') return 'grn';
+  return 'oth';
 }
