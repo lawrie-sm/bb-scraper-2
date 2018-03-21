@@ -17,10 +17,11 @@ class SPSearchResults(ListView):
             keywords = request.GET['q']
             query = SearchQuery(keywords)
             motions_queryset = Motion.objects.filter(search_vector=query)
-            contribs_queryset = Contribution.objects.filter(search_vector=query)
             questions_queryset = Question.objects.filter(search_vector=query)
-            
-            full_queryset = chain(motions_queryset, contribs_queryset, questions_queryset)
+            # contribs_queryset = Contribution.objects.filter(search_vector=query')
+            full_queryset = chain(motions_queryset, questions_queryset)
+
+            # TODO: Use "values" after the filter to speed up, run date and type search through this
 
             data_json = serializers.serialize('json', full_queryset)
             context = {
