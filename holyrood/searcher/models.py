@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.postgres.search import SearchVectorField, SearchVector
-from django.contrib.postgres.indexes import GinIndex
+from django.contrib.postgres.indexes import Index, GinIndex
 
 class Person(models.Model):
     internal_id = models.CharField(max_length=128, blank=True, null=True)
