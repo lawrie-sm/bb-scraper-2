@@ -14,11 +14,11 @@ class index(View):
 
 class SPSearchResults(ListView):
     def get(self, request):
-        if (request.GET['q'] is not None):
-            keywords = request.GET['q']
+        req = request.GET
+        if ('q' in req and 'date-range' in req):
+            keywords = req['q']
             query = SearchQuery(keywords)
-
-            date_range = request.GET['date-range']
+            date_range = req['date-range']
             # Temp date set to 2016
             current_date = datetime.date(2016, 1, 1)
             start_date = datetime.date(1999, 6, 1)
@@ -29,21 +29,38 @@ class SPSearchResults(ListView):
             elif (date_range == 'last-10-years'):
                 start_date = current_date - datetime.timedelta(days=(365.24*10))
 
+            print(request.GET)
 
-            cont = (request.GET['cont'] is not None)
-            mot = (request.GET['mot'] is not None)
-            qs = (request.GET['qs'] is not None)
-            snp = (request.GET['snp'] is not None)
-            lab = (request.GET['lab'] is not None)
-            con = (request.GET['con'] is not None)
-            ld = (request.GET['ld'] is not None)
-            grn = (request.GET['grn'] is not None)
-            oth = (request.GET['oth'] is not None)
+            # TODO: Could refactor form to be tidier or use reflection here
+            snp = False
+            lab = False
+            con = False
+            ld = False
+            grn = False
+            oth = False
+            cont = False
+            qs = False
+            mot = False
+            if ('snp' in req): snp = True
+            if ('lab' in req): lab = True
+            if ('con' in req): con = True
+            if ('ld' in req): ld = True
+            if ('grn' in req): grn = True
+            if ('oth' in req): oth = True
+            if ('cont' in req): cont = True
+            if ('qs' in req): qs = True
+            if ('mot' in req): mot = True
 
+            full_qs_list = []
             
-            motions_queryset = Motion.objects.filter(search_vector=query, date__gte=start_date)
-            # questions_queryset = Question.objects.filter(search_vector=query)
-            full_queryset = motions_queryset # chain(motions_queryset, questions_queryset)
+            if (mot):
+                mot_qs = Motion.objects.filter(search_vector=query, date__gte=start_date)
+                full_qs_list.append(mot_qs)
+            if (qs):
+                qs_qs = Question.objects.filter(search_vector=query, date__gte=start_date)
+                full_qs_list.append(qs_qs)
+
+            full_queryset = chain.from_iterable(full_qs_list)
 
             # TODO: Use "values" after the filter to speed up, run date and type search through this
 
