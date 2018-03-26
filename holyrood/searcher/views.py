@@ -18,6 +18,7 @@ class SPSearchResults(ListView):
         if ('q' in req and 'date-range' in req):
             keywords = req['q']
             query = SearchQuery(keywords)
+            
             date_range = req['date-range']
             # Temp date set to 2016
             current_date = datetime.date(2016, 1, 1)
@@ -28,8 +29,6 @@ class SPSearchResults(ListView):
                 start_date = current_date - datetime.timedelta(days=(365.24*5))
             elif (date_range == 'last-10-years'):
                 start_date = current_date - datetime.timedelta(days=(365.24*10))
-
-            print(request.GET)
 
             # TODO: Could refactor form to be tidier or use reflection here
             snp = False
