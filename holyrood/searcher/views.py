@@ -18,9 +18,9 @@ class SPSearchResults(ListView):
         if ('q' in req and 'date-range' in req):
             keywords = req['q']
             query = SearchQuery(keywords)
-            
-            date_range = req['date-range']
+
             # Temp date set to 2016
+            date_range = req['date-range']
             current_date = datetime.date(2016, 1, 1)
             start_date = datetime.date(1999, 6, 1)
             if (date_range == 'last-year'):
@@ -50,13 +50,15 @@ class SPSearchResults(ListView):
             if ('qs' in req): qs = True
             if ('mot' in req): mot = True
 
+            queryset = Q(search_vector=query, date__gte=start_date)
+
             full_qs_list = []
             
             if (mot):
-                mot_qs = Motion.objects.filter(search_vector=query, date__gte=start_date)
+                mot_qs = Motion.objects.filter(queryset)
                 full_qs_list.append(mot_qs)
             if (qs):
-                qs_qs = Question.objects.filter(search_vector=query, date__gte=start_date)
+                qs_qs = Question.objects.filter(queryset)
                 full_qs_list.append(qs_qs)
 
             full_queryset = chain.from_iterable(full_qs_list)
