@@ -7,9 +7,7 @@ PROJECT_DIR = os.path.dirname(__file__)
 
 SECRET_KEY = 'ki5vk$blxv@)lx37-or=xy#)xivjsoq30fp=jpn97wng!xci2^'
 
-
-# TODO: Finish up
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', 'holyrood-search.lsm.scot']
 
@@ -114,9 +112,10 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(PROJECT_DIR, 'static/')
 INTERNAL_IPS = ['127.0.0.1']
 
-"""
+
 try:
-    from local_settings import *
+    from .local_settings import *
+    print('Using local settings')
 except ImportError:
+    print('Using production settings')
     pass
-"""
