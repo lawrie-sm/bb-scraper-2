@@ -64,10 +64,10 @@ function setupChart(data, lastYearWithFullData, formData) {
     }
 
     // Set type based on form
-    selectedType = formData.find(function(v) {
-      if (v.name === 'type') return v;
-    }); 
-    selectedType = selectedType.value;
+    // selectedType = formData.find(function(v) {
+    //   if (v.name === 'type') return v;
+    // }); 
+    // selectedType = selectedType.value;
 
     // Build party dict from formData
     parties = {};
