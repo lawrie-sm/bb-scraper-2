@@ -1,0 +1,12 @@
+----Startup----
+python 3.6.4 for heroku
+python -m venv env 
+"env\Scripts\activate"
+pip install django==1.11
+django-admin startproject <project name>
+manage.py startapp <app name>
+
+Info on using RDS with Heroku:
+https://stackoverflow.com/questions/35247347/point-heroku-application-to-aws-rds-database
+https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts.General.SSL
+https://devcenter.heroku.com/articles/amazon-rds

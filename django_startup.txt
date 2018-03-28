@@ -1,7 +1,0 @@
-----Startup----
-python 3.6.4 for heroku
-python -m venv env 
-"env\Scripts\activate"
-pip install django==1.11
-django-admin startproject <project name>
-manage.py startapp <app name>
