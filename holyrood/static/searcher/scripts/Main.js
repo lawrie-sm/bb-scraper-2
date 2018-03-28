@@ -34,7 +34,14 @@ function setupChart(data, lastYearWithFullData, formData) {
 
   // Setup default party data and 'parties' dict
   var DEFAULT_PARTIES = ['tot', 'snp', 'lab', 'con', 'ld', 'grn', 'oth'];
-  var parties = { 'tot': 'y'}
+  var parties = {
+    'snp': 'y',
+    'lab': 'y',
+    'con': 'y',
+    'ld': 'y',
+    'grn': 'y',
+    'oth': 'y',
+  }
 
   // Deal with inputs from the update form, if any
   if (formData) {
@@ -122,26 +129,16 @@ function setupChart(data, lastYearWithFullData, formData) {
     })
     series[i] = newSeries;
   }
-  if (labels.length > 0 && series.length > 0) {
-    var chartData = {
-      labels,
-      series,
-    };
+  var chartData = {
+    labels,
+    series,
+  };
 
-    var chartArgs = { axisY: { onlyInteger: true } };
-    new Chartist.Line('.ct-chart', chartData, chartArgs);
-    $('.ct-chart').show();
-    $('#no-data-warning').hide();
+  var chartArgs = { axisY: { onlyInteger: true } };
+  new Chartist.Line('.ct-chart', chartData, chartArgs);
+  $('.ct-chart').show();
 
-    $('#final-total').empty().append(`Found ${finalTotal} instance(s)`);
-
-  } else {
-    $('.ct-chart').hide();
-    $('#no-data-warning').show();
-  }
-
-
-
+  $('#final-total').empty().append(`Found ${finalTotal} instance(s)`);
 }
 
 function getPartyFromSPName(SPName) {
