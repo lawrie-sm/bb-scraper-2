@@ -1,0 +1,17 @@
+{% extends 'searcher/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+
+  {% include 'searcher/search-form.html' %}
+  {% include 'searcher/results-chart.html' %}
+  {% include 'searcher/loader-row.html' %}
+
+</div>
+<script type="text/javascript">
+  var END_YEAR = '2016';
+  var RECIEVED_DATA = {{data_json|safe}};
+  setupChart(RECIEVED_DATA, END_YEAR, null)
+</script>
+{% endblock %}
