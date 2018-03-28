@@ -11,7 +11,7 @@ SECRET_KEY = 'ki5vk$blxv@)lx37-or=xy#)xivjsoq30fp=jpn97wng!xci2^'
 # TODO: Finish up
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'holyrood-search.lsm.scot']
 
 INSTALLED_APPS = [
     'searcher',
