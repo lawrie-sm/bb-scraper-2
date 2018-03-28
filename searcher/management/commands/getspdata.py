@@ -201,12 +201,17 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         call_command('deleteall')
         self.add_MSPs()
-        # MSP data should exist
-        #self.add_contributions(False)
-        #self.add_contributions(True)
+        
+        # Currently no SP data on contributions
+        # self.add_contributions(False)
+        # self.add_contributions(True)
+
         sub_types = self.get_sub_types_dict()
-        # Sub type data should exist
-        self.add_questions(sub_types)
+        
+        # Currently issues with formatting of some questions
+        # Leading to SQL: ValueError: A string literal cannot contain NUL (0x00) characters.
+        # self.add_questions(sub_types)
+
         self.add_motions(sub_types)
         call_command('updatesearchvectors')
         print('Done!')
