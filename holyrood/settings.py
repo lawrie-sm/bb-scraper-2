@@ -5,7 +5,7 @@ import dj_database_url
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_DIR = os.path.dirname(__file__)
 
-SECRET_KEY = 'ki5vk$blxv@)lx37-or=xy#)xivjsoq30fp=jpn97wng!xci2^'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 DEBUG = False
 
